@@ -5,7 +5,7 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 from datetime import date
 
-st.set_page_config(layout="wide")
+st.set_page_config(layout="wide", page_title="SIP Calculator", page_icon="📈")
 st.title(":green[SIP] Calculator :chart_with_upwards_trend:")
 
 # Remove Streamlit menu and footer
