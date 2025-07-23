@@ -83,8 +83,8 @@ selected_stocks = [name_to_ticker[name] for name in selected_names]
 
 start_date = st.sidebar.date_input("Start Date", value=date(2023, 1, 1))
 end_date = st.sidebar.date_input("End Date", value=date(2024, 1, 1))
-rf_rate = st.sidebar.slider("Risk-Free Rate (Annual)", 0.0, 0.2, 0.08)
-num_portfolios = st.sidebar.slider("Number of Simulations", 500, 10000, 3000, step=500)
+rf_rate = st.sidebar.slider("Risk-Free Rate (Annual)", 0.0, 0.2, 0.06)
+num_portfolios = st.sidebar.slider("Number of Simulations", 500, 10000, 5000, step=500)
 
 # Fetch and process data
 @st.cache_data(show_spinner=True)
@@ -132,6 +132,30 @@ weights_df = pd.DataFrame({
     'Weight (%)': np.round(np.array(optimal_weights) * 100, 2)
 })
 st.dataframe(weights_df, use_container_width=True)
+st.markdown("#### 🥧 Optimal Portfolio Allocation (Pie Chart)")
+
+weights_percent = np.round(np.array(optimal_weights) * 100, 2)
+
+# Filter to show only non-zero weights
+nonzero_indices = weights_percent > 0.5
+nonzero_weights = weights_percent[nonzero_indices]
+nonzero_labels = [ticker_to_name[selected_stocks[i]] for i in range(len(selected_stocks)) if nonzero_indices[i]]
+
+fig_pie = go.Figure(data=[go.Pie(
+    labels=nonzero_labels,
+    values=nonzero_weights,
+    textinfo='label+percent',
+    hoverinfo='label+value',
+    marker=dict(line=dict(color='#000000', width=1))
+)])
+
+fig_pie.update_layout(
+    title='Optimal Asset Allocation (Max Sharpe)',
+    height=500,
+    margin=dict(t=50, b=0, l=0, r=0)
+)
+
+st.plotly_chart(fig_pie, use_container_width=True)
 
 # Plot efficient frontier
 fig = go.Figure()
