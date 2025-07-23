@@ -5,8 +5,8 @@ import pandas as pd
 import plotly.graph_objects as go
 from datetime import date
 
-st.set_page_config(layout="wide")
-st.title(":money_with_wings: Monte Carlo Portfolio Optimizer")
+st.set_page_config(layout="wide",page_title="Portfolio Optimizar", page_icon=":money_with_wings:")
+st.title(":money_with_wings: Monte Carlo Portfolio Optimizar")
 
 # Hide Streamlit menu and footer
 st.markdown("""
